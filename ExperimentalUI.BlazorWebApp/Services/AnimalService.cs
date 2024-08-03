@@ -1,4 +1,4 @@
-﻿namespace ExperimentalUI.WebApp.Services;
+﻿namespace ExperimentalUI.BlazorWebApp.Services;
 
 public class AnimalService
 {

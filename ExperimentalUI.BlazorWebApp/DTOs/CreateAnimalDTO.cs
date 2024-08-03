@@ -1,8 +1,7 @@
-﻿namespace ExperimentalUI.WebApp.Models;
-public class Animal
-{
-    public Guid Id { get; set; }
+﻿namespace ExperimentalUI.BlazorWebApp.DTOs;
 
+public class CreateAnimalDTO
+{
     public string Name { get; set; }
 
     public string Description { get; set; }

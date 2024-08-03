@@ -1,4 +1,4 @@
-﻿namespace ExperimentalUI.WebApp.Interfaces;
+﻿namespace ExperimentalUI.BlazorWebApp.Interfaces;
 
 public interface IAnimalService
 {

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExperimentalRestAPI.API", "ExperimentalRestAPI.API\ExperimentalRestAPI.API.csproj", "{B9A62C4D-D66E-489F-BA94-B67DB2832DCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentalUI.WebApp", "ExperimentalUI.WebApp\ExperimentalUI.WebApp.csproj", "{03EE0896-EB09-4C69-9EA1-573FC3BFB95B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentalUI.BlazorWebApp", "ExperimentalUI.BlazorWebApp\ExperimentalUI.BlazorWebApp.csproj", "{03EE0896-EB09-4C69-9EA1-573FC3BFB95B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

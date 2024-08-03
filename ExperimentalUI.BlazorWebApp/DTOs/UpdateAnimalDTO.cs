@@ -1,6 +1,6 @@
-﻿namespace ExperimentalUI.WebApp.DTOs;
+﻿namespace ExperimentalUI.BlazorWebApp.DTOs;
 
-public class AnimalResponseDTO
+public class UpdateAnimalDTO
 {
     public Guid Id { get; set; }
 

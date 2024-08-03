@@ -1,4 +1,3 @@
-using ExperimentalUI.WebApp.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
