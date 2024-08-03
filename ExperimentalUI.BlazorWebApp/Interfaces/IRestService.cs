@@ -1,6 +1,6 @@
 ﻿namespace ExperimentalUI.BlazorWebApp.Interfaces;
 
-public interface IAnimalService
+public interface IRestService
 {
     //Task<IEnumerable<Animal>> GetAllAsync();
     //Task<Animal> GetByIdAsync(Guid id);

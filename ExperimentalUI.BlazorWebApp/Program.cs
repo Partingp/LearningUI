@@ -1,3 +1,6 @@
+using ExperimentalUI.BlazorWebApp.Components;
+using ExperimentalUI.BlazorWebApp.Models.Options;
+using ExperimentalUI.BlazorWebApp.Services;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient();
 builder.Services.AddFluentUIComponents();
+
+builder.Services.Configure<AnimalEndpointOptions>(builder.Configuration.GetSection(nameof(AnimalEndpointOptions)));
+
+builder.Services.AddTransient(typeof(RestService<,>));
 
 var app = builder.Build();
 
