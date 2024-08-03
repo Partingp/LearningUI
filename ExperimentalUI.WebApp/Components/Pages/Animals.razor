@@ -1,0 +1,68 @@
+﻿@page "/animals"
+@using ExperimentalUI.WebApp.Models
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Animals</PageTitle>
+
+<FluentSwitch @bind-Value=@_gridView CheckedMessage="Grid View" UncheckedMessage="Row View"/>
+
+ @if (_gridView)
+{
+    //TODO - Use virtual so images are not rendered when not in view
+    <FluentDataGrid @ref="_animalGrid" Items="@_animals" GridTemplateColumns="1fr 1fr 1fr 2fr" TGridItem="Animal">
+        <ChildContent>
+            <FluentCard Width="10vw" Height="10vh" role="button">
+                <p>Just some content in a card (with a button that does not do anything).</p>
+                <FluentButton Appearance="Appearance.Accent">Hello</FluentButton>
+            </FluentCard>
+        </ChildContent>
+        <EmptyContent>
+            <FluentIcon Value="@(new Icons.Filled.Size24.Crown())" Color="@Color.Accent" />&nbsp; No animals here!
+        </EmptyContent>
+        <LoadingContent>
+            <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+                Loading...<br />
+                <FluentProgress Width="240px" />
+            </FluentStack>
+        </LoadingContent>
+    </FluentDataGrid>
+}
+
+else
+{
+    <FluentDataGrid @ref="_animalRow" Items="@_animals" GridTemplateColumns="1fr 1fr 1fr 2fr" TGridItem="Animal">
+        <ChildContent>
+                <FluentCard Width="100%" Height="10vh" role="button">
+                    <p>Animal row</p>
+                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())"
+                                  Title="Delete Animal" />
+                </FluentCard>
+            </ChildContent>
+            <EmptyContent>
+                <FluentIcon Value="@(new Icons.Filled.Size24.Crown())" Color="@Color.Accent" />&nbsp; No animals here!
+            </EmptyContent>
+            <LoadingContent>
+                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+                    Loading...<br />
+                    <FluentProgress Width="240px" />
+                </FluentStack>
+            </LoadingContent>
+        </FluentDataGrid>
+}
+
+@code {
+    private IQueryable<Animal>? _animals;
+    private FluentDataGrid<Animal>? _animalGrid;
+    private FluentDataGrid<Animal>? _animalRow;
+    private bool _gridView;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _animalGrid?.SetLoadingState(true);
+        _animalRow?.SetLoadingState(true); 
+        //TODO - Get animals
+        _animalGrid?.SetLoadingState(false);
+        _animalRow?.SetLoadingState(false);
+    }
+}

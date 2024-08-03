@@ -2,7 +2,7 @@
 
 <FluentLayout>
     <FluentHeader>
-        ExperimentalUI.WebApp
+        Experimental UI
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <NavMenu />
@@ -13,9 +13,9 @@
         </FluentBodyContent>
     </FluentStack>
     <FluentFooter>
-        <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>
+        <FluentLabel Typo="Typography.Body">This is the footer</FluentLabel>
         <FluentSpacer />
-        <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor" target="_blank">About Blazor</a>
+        <FluentLabel Typo="Typography.Body">Something else goes here</FluentLabel>
     </FluentFooter>
 </FluentLayout>
 
@@ -24,3 +24,8 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+<FluentToastProvider />
+<FluentDialogProvider />
+<FluentTooltipProvider />
+<FluentMessageBarProvider />
