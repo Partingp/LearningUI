@@ -37,10 +37,17 @@
                                 <FluentCard Width="10vw" Height="15vh" Style="display: flex; flex-direction: column; justify-content: space-between;">
                                     <!-- Image Container -->
                                     <div style="cursor: pointer; height: 90%; display: flex; align-items: center; justify-content: center;" @onclick="() => EnlargeAnimalThumbnail(animal)">
-                                        <img src="@animal.Thumbnail"
-                                             alt="@animal.Description"
-                                             title="@animal.Description"
-                                             style="max-height: 100%; max-width: 100%; height: auto; width: auto; object-fit: cover;" />
+                                        @if (IsVideoMimeType(@animal.Thumbnail))
+                                        {
+                                            <FluentIcon Value="@(new Icons.Regular.Size24.MoviesAndTv())" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@animal.Thumbnail"
+                                                 alt="@animal.Description"
+                                                 title="@animal.Description"
+                                                 style="max-height: 100%; max-width: 100%; height: auto; width: auto; object-fit: cover;" />
+                                        }
                                     </div>
 
                                     <!-- Footer Section -->
@@ -140,5 +147,25 @@
             };
 
         IDialogReference dialog = await _dialogService.ShowDialogAsync<AnimalEditor>(animal, parameters);
+    }
+
+    private static bool IsVideoMimeType(string base64String)
+    {
+        var mimeType = base64String.Split(',')[0];
+        // Remove the "data:" part
+        mimeType = mimeType.Substring(5);
+        mimeType = mimeType.Substring(0, mimeType.IndexOf(";base64"));
+
+        // Check against known video MIME types
+        var videoMimeTypes = new[] {
+            "video/mp4",
+            "video/webm",
+            "video/ogg",
+            "video/avi",
+            "video/mkv",
+            // Add more video MIME types as needed
+        };
+
+        return Array.Exists(videoMimeTypes, type => type.Equals(mimeType, StringComparison.OrdinalIgnoreCase));
     }
 }
