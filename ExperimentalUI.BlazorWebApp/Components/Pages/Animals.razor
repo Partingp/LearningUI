@@ -1,67 +1,121 @@
 ﻿@page "/animals"
+@using ExperimentalUI.BlazorWebApp.Components.Dialogs
+@using ExperimentalUI.BlazorWebApp.Interfaces
+@using ExperimentalUI.BlazorWebApp.Models.Options
 @attribute [StreamRendering]
+@inject IRestService<Animal,AnimalEndpointOptions> _restService
+@inject IToastService _toastService
+@inject IDialogService _dialogService
 @rendermode InteractiveServer
 
-<PageTitle>Animals</PageTitle>
+<FluentGrid>
+    <FluentGridItem xs="12">
+        <FluentLabel Typo="Typography.HeroTitle">Animals</FluentLabel>
+    </FluentGridItem>
+    <FluentGridItem xs="12">
+        <FluentSwitch @bind-Value=@_gridView CheckedMessage="Grid View" UncheckedMessage="Row View" />
+    </FluentGridItem>
+    <FluentGridItem xs="12">
+        @if (_animals is null)
+        {
+            <FluentSkeleton Shape="SkeletonShape.Circle"></FluentSkeleton>
+            <FluentSkeleton Shape="SkeletonShape.Rect"></FluentSkeleton>
+            <FluentSkeleton Style="margin-top: 10px" Height="10px;"></FluentSkeleton>
+            <FluentSkeleton Style="margin-top: 10px" Height="10px;"></FluentSkeleton>
+            <FluentSkeleton Style="margin-top: 20px;margin-bottom: 10px;" Width="75px" Height="30px"></FluentSkeleton>
+        }
+        else
+        {
+            @if (_gridView)
+            {
+                //TODO - Use virtual so images are not rendered when not in view
+                <FluentGrid>
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        @foreach (var animal in _animals)
+                        {
+                            <FluentGridItem xs="3">
+                                <FluentCard Width="10vw" Height="15vh" Style="display: flex; flex-direction: column; justify-content: space-between;">
+                                    <!-- Image Container -->
+                                    <div style="cursor: pointer; height: 90%; display: flex; align-items: center; justify-content: center;" @onclick="() => EnlargeAnimalThumbnail(animal)">
+                                        <img src="@animal.Thumbnail"
+                                             alt="@animal.Description"
+                                             title="@animal.Description"
+                                             style="max-height: 100%; max-width: 100%; height: auto; width: auto; object-fit: cover;" />
+                                    </div>
 
-<FluentSwitch @bind-Value=@_gridView CheckedMessage="Grid View" UncheckedMessage="Row View"/>
+                                    <!-- Footer Section -->
+                                    <FluentStack Style="margin-top: 0.5vh; width: 100%;" HorizontalGap="0" Orientation="Orientation.Horizontal">
+                                        <FluentLabel title="@animal.Name" Typo="Typography.Subject" Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">
+                                            @animal.Name
+                                        </FluentLabel>
+                                        <FluentSpacer></FluentSpacer>
+                                        <FluentButton Style="margin-top: -0.5vh;" Appearance="Appearance.Stealth" IconEnd="@(new Icons.Regular.Size16.Delete())"
+                                                      OnClick="()=>DeleteAnimalAsync(animal.Id)" Loading="@_isDeletingAnimal" Title="Delete Animal" />
+                                    </FluentStack>
+                                </FluentCard>
+                            </FluentGridItem>
+                        }
+                    </FluentStack>
+                </FluentGrid>
+            }
 
- @if (_gridView)
-{
-    //TODO - Use virtual so images are not rendered when not in view
-    <FluentDataGrid @ref="_animalGrid" Items="@_animals" GridTemplateColumns="1fr 1fr 1fr 2fr" TGridItem="Animal">
-        <ChildContent>
-            <FluentCard Width="10vw" Height="10vh" role="button">
-                <p>Just some content in a card (with a button that does not do anything).</p>
-                <FluentButton Appearance="Appearance.Accent">Hello</FluentButton>
-            </FluentCard>
-        </ChildContent>
-        <EmptyContent>
-            <FluentIcon Value="@(new Icons.Filled.Size24.Crown())" Color="@Color.Accent" />&nbsp; No animals here!
-        </EmptyContent>
-        <LoadingContent>
-            <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
-                Loading...<br />
-                <FluentProgress Width="240px" />
-            </FluentStack>
-        </LoadingContent>
-    </FluentDataGrid>
-}
-
-else
-{
-    <FluentDataGrid @ref="_animalRow" Items="@_animals" GridTemplateColumns="1fr 1fr 1fr 2fr" TGridItem="Animal">
-        <ChildContent>
-                <FluentCard Width="100%" Height="10vh" role="button">
-                    <p>Animal row</p>
-                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())"
-                                  Title="Delete Animal" />
-                </FluentCard>
-            </ChildContent>
-            <EmptyContent>
-                <FluentIcon Value="@(new Icons.Filled.Size24.Crown())" Color="@Color.Accent" />&nbsp; No animals here!
-            </EmptyContent>
-            <LoadingContent>
-                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
-                    Loading...<br />
-                    <FluentProgress Width="240px" />
-                </FluentStack>
-            </LoadingContent>
-        </FluentDataGrid>
-}
+            else
+            {
+                <FluentGrid>
+                    @foreach (var animal in _animals)
+                    {
+                        <FluentGridItem xs="12">
+                            <FluentCard Width="100%" Height="10vh" role="button">
+                                <p>Animal row</p>
+                                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())"
+                                              Title="Delete Animal" />
+                            </FluentCard>
+                        </FluentGridItem>
+                    }
+                </FluentGrid>
+            }
+        }
+    </FluentGridItem>
+</FluentGrid>
 
 @code {
-    private IQueryable<Animal>? _animals;
-    private FluentDataGrid<Animal>? _animalGrid;
-    private FluentDataGrid<Animal>? _animalRow;
+    private IQueryable<Animal> _animals;
     private bool _gridView;
+    private bool _isDeletingAnimal = false;
+    private FluentDialog? _thumbnailDialog;
 
     protected override async Task OnInitializedAsync()
     {
-        _animalGrid?.SetLoadingState(true);
-        _animalRow?.SetLoadingState(true); 
-        //TODO - Get animals
-        _animalGrid?.SetLoadingState(false);
-        _animalRow?.SetLoadingState(false);
+        _animals = (await _restService.GetAllAsync()).AsQueryable();
+    }
+
+    private async Task DeleteAnimalAsync(Guid id)
+    {
+        _isDeletingAnimal = true;
+        _toastService.ShowInfo("Attempting to delete animal");
+        var result = await _restService.DeleteAsync(id);
+        if (result)
+        {
+            _toastService.ShowSuccess("Successfully deleted animal");
+        }
+        else
+        {
+            _toastService.ShowError("Failed to deleted animal");
+        }
+        _isDeletingAnimal = false;
+    }
+
+    private async Task EnlargeAnimalThumbnail(Animal animal)
+    {
+        DialogParameters parameters = new()
+            {
+                Width = "auto",
+                Height = "80%",
+                TrapFocus = true,
+                Modal = true,
+                PreventScroll = true,
+            };
+
+        IDialogReference dialog = await _dialogService.ShowDialogAsync<ThumbnailDialog>(animal.Thumbnail, parameters);
     }
 }

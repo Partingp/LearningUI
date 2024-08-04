@@ -1,0 +1,12 @@
+﻿@implements IDialogContentComponent<string>
+<FluentDialogHeader Visible="false"></FluentDialogHeader>
+<img src="@Content" style="height: 100%; width: 100%; object-fit: cover;" />
+<FluentDialogFooter Visible="false"></FluentDialogFooter>
+
+@code {
+    [Parameter]
+    public string Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; }
+}

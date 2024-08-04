@@ -1,10 +1,14 @@
-﻿namespace ExperimentalUI.BlazorWebApp.Interfaces;
+﻿using ExperimentalUI.BlazorWebApp.Models.Options;
 
-public interface IRestService
+namespace ExperimentalUI.BlazorWebApp.Interfaces;
+
+public interface IRestService<T, TOptions>
+    where T : class
+    where TOptions : RestOptions
 {
-    //Task<IEnumerable<Animal>> GetAllAsync();
-    //Task<Animal> GetByIdAsync(Guid id);
-    //Task AddAsync(Animal animal);
-    //Task UpdateAsync(Guid id, Animal animal);
-    //Task DeleteAsync(Guid id);
+    Task<T> CreateAsync(T entity);
+    Task<T> GetByIdAsync(Guid id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<T> UpdateAsync(Guid id, T entity);
+    Task<bool> DeleteAsync(Guid id);
 }

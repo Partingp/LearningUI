@@ -25,7 +25,7 @@
     <a class="dismiss">🗙</a>
 </div>
 
-<FluentToastProvider />
-<FluentDialogProvider />
+<FluentToastProvider @rendermode="RenderMode.InteractiveServer" RemoveToastsOnNavigation="true" />
+<FluentDialogProvider @rendermode="RenderMode.InteractiveServer" />
 <FluentTooltipProvider />
 <FluentMessageBarProvider />
