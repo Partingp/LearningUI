@@ -1,0 +1,11 @@
+﻿@implements IDialogContentComponent<Animal>
+
+<FluentLabel Typo="Typography.HeroTitle"> This is the editor</FluentLabel>
+
+@code {
+    [Parameter]
+    public Animal Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; }
+}
