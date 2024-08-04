@@ -1,6 +1,7 @@
 using ExperimentalRestAPI.API.Interfaces;
 using ExperimentalRestAPI.API.Models.Options;
 using ExperimentalRestAPI.API.Repositories;
+using FluentValidation;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Reflection;
@@ -30,6 +31,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

@@ -2,6 +2,7 @@ using AutoMapper;
 using ExperimentalRestAPI.API.DTOs;
 using ExperimentalRestAPI.API.Interfaces;
 using ExperimentalRestAPI.API.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExperimentalRestAPI.API.Controllers;
@@ -11,11 +12,16 @@ public class AnimalController : ControllerBase
 {
     private readonly IAnimalRepository _animalRepository;
     private readonly IMapper _mapper;
+    private readonly IValidator<CreateAnimalDTO> _createValidator;
+    private readonly IValidator<UpdateAnimalDTO> _updateValidator;
 
-    public AnimalController(IAnimalRepository animalRepository, IMapper mapper)
+    public AnimalController(IAnimalRepository animalRepository, IMapper mapper,
+        IValidator<CreateAnimalDTO> createAnimalDtoValidator, IValidator<UpdateAnimalDTO> updateAnimalDtoValidator)
     {
         _animalRepository = animalRepository;
         _mapper = mapper;
+        _createValidator = createAnimalDtoValidator;
+        _updateValidator = updateAnimalDtoValidator;
     }
 
     [HttpGet]
@@ -41,6 +47,13 @@ public class AnimalController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<CreateAnimalDTO>> CreateAnimalAsync(CreateAnimalDTO animalDto)
     {
+        var validationResult = await _createValidator.ValidateAsync(animalDto);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.ToDictionary());
+        }
+
         var animal = _mapper.Map<Animal>(animalDto);
         await _animalRepository.AddAsync(animal);
         return CreatedAtAction(nameof(GetAnimal), new { id = animal.Id }, animal);
@@ -49,9 +62,11 @@ public class AnimalController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAnimalAsync([FromRoute] Guid id, UpdateAnimalDTO animalDto)
     {
-        if (id != animalDto.Id)
+        var validationResult = await _updateValidator.ValidateAsync(animalDto);
+
+        if (!validationResult.IsValid || id != animalDto.Id)
         {
-            return BadRequest();
+            return BadRequest(validationResult.ToDictionary());
         }
 
         var animal = await _animalRepository.GetByIdAsync(id);
