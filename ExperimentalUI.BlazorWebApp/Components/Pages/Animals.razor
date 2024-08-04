@@ -65,17 +65,21 @@
                     @foreach (var animal in _animals)
                     {
                         <FluentGridItem xs="12">
-                            <FluentCard Width="100%" Height="5vh" role="button" @onclick="()=>OpenAnimalEditorAsync(animal)">
-                                <FluentStack Style="width: 100%; height: 100%; display: flex; align-items: center;" HorizontalGap="0" Orientation="Orientation.Horizontal">
-                                    <FluentLabel title="@animal.Name" Typo="Typography.Subject" Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">
-                                        @animal.Name
-                                    </FluentLabel>
-                                    <FluentSpacer></FluentSpacer>
-                                    <FluentButton Style="margin: 0; align-self: center;" Appearance="Appearance.Stealth" IconEnd="@(new Icons.Regular.Size16.Delete())"
-                                                  @onclick="()=>DeleteAnimalAsync(animal.Id)" Loading="@_isDeletingAnimal" Title="Delete Animal" />
-                                </FluentStack>
-                            </FluentCard>
-
+                            <FluentStack Style="width: 100%; height: 100%; display: flex; align-items: center;" HorizontalGap="0" Orientation="Orientation.Horizontal">
+                                <div style="position: relative; width: 100%;">
+                                    <FluentCard Width="100%" Height="100%" role="button"
+                                                @onclick="()=>OpenAnimalEditorAsync(animal)"
+                                                Style="display: flex; align-items: center; justify-content: center; padding: 1rem; box-sizing: border-box;">
+                                        <FluentLabel title="@animal.Name" Typo="Typography.Subject"
+                                                     Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">
+                                            @animal.Name
+                                        </FluentLabel>
+                                    </FluentCard>
+                                    <FluentButton Style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); margin-left: 1rem;"
+                                                  Appearance="Appearance.Stealth" IconEnd="@(new Icons.Regular.Size16.Delete())"
+                                                  @onclick="()=>DeleteAnimalAsync(animal.Id)" Title="Delete Animal" />
+                                </div>
+                            </FluentStack>
                         </FluentGridItem>
                     }
                 </FluentGrid>
