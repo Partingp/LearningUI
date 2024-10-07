@@ -1,4 +1,6 @@
-﻿namespace ExperimentalUI.BlazorWebApp.Models;
+﻿using ExperimentalUI.BlazorWebApp.Enums;
+
+namespace ExperimentalUI.BlazorWebApp.Models;
 public class Scores
 {
     public int Cuteness { get; set; }
