@@ -18,4 +18,16 @@ public class Animal
 
     [BsonElement("isdomestic")]
     public bool IsDomestic { get; set; }
+
+    [BsonElement("locations")]
+    public string[] Locations { get; set; }
+
+    [BsonElement("weight")]
+    public float Weight { get; set; }
+
+    [BsonElement("height")]
+    public float Height { get; set; }
+
+    [BsonElement("scores")]
+    public Scores Scores { get; set; }
 }

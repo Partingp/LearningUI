@@ -93,6 +93,8 @@
             }
         }
     </FluentGridItem>
+    @*TODO - Delete this checkbox*@
+    <FluentCheckbox @bind-Value=_gridView/>
 </FluentGrid>
 
 @code {
@@ -164,5 +166,12 @@
         };
 
         return Array.Exists(videoMimeTypes, type => type.Equals(mimeType, StringComparison.OrdinalIgnoreCase));
+    }
+
+    //TODO - Delete this method
+    private bool TestMethod()
+    {
+        // var test = _animals.Contains(null);
+        return true;
     }
 }
