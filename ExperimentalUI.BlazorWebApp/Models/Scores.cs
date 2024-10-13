@@ -15,5 +15,10 @@ public class Scores
 
     public Rarity Rarity { get; set; }
 
-    public float Overall { get; set; }
+    //TODO - Calculate a better value using Speed, Pettable and Rarity
+    public float Overall
+    {
+        get => ((Cuteness + Speed + Mischief
+                + Lifespan) / 4);
+    }
 }

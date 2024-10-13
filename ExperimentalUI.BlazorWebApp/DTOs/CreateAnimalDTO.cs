@@ -1,4 +1,6 @@
-﻿namespace ExperimentalUI.BlazorWebApp.DTOs;
+﻿using ExperimentalUI.BlazorWebApp.Models;
+
+namespace ExperimentalUI.BlazorWebApp.DTOs;
 
 public class CreateAnimalDTO
 {

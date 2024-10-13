@@ -1,0 +1,34 @@
+﻿@using ExperimentalUI.BlazorWebApp.Interfaces
+@using ExperimentalUI.BlazorWebApp.Models.Options
+@using ExperimentalUI.BlazorWebApp.ViewModels
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inherits ComponentBaseWithViewModel<AnimalTableViewModel>
+
+<FluentDataGrid Items="@ViewModel.Animals"
+                ResizableColumns=true
+                ShowHover="true"
+                TGridItem="Animal"
+                Pagination="@ViewModel.Pagination"
+                GridTemplateColumns="1fr 1fr 1fr 1r 1fr 1fr 1fr 1fr 1fr 1fr"
+                OnRowClick="@((row)=>ViewModel.NavigateToAnimalDetailsCommand.Execute(row.Item?.Id))">
+    <PropertyColumn Property="@(c => c.Name)" Sortable="true"/>
+    <PropertyColumn Property="@(c => c.Description)" Sortable="true" Align="Align.Start" />
+    <PropertyColumn Property="@(c => c.IsDomestic)" Sortable="true" Align="Align.Center" />
+    <PropertyColumn Property="@(c => c.Scores.Cuteness)" Sortable="false" Align="Align.End" />
+    <PropertyColumn Property="@(c => c.Scores.Speed)" Sortable="false" Align="Align.End" />
+    <PropertyColumn Property="@(c => c.Scores.Mischief)" Sortable="false" Align="Align.End" />
+    <PropertyColumn Property="@(c => c.Scores.Lifespan)" Sortable="false" Align="Align.End" />
+    <PropertyColumn Property="@(c => c.Scores.Pettable)" Sortable="false" Align="Align.End" />
+        @*TODO - Add colour depending on rarity e.g. white, green, blue, purple, orange*@
+    <PropertyColumn Property="@(c => c.Scores.Rarity)" Sortable="false" Align="Align.End" />
+    <PropertyColumn Property="@(c => c.Scores.Overall)" Sortable="false" Align="Align.End" />
+</FluentDataGrid>
+
+
+<FluentPaginator State="@ViewModel.Pagination" />
+
+@code {
+
+
+}

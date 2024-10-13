@@ -1,0 +1,45 @@
+﻿@page "/animals"
+@using ExperimentalUI.BlazorWebApp.Components.Components
+@using ExperimentalUI.BlazorWebApp.Interfaces
+@using ExperimentalUI.BlazorWebApp.Models.Options
+@using ExperimentalUI.BlazorWebApp.ViewModels
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inherits ComponentBaseWithViewModel<AnimalsOverviewViewModel>
+
+<FluentGrid>
+    <FluentGridItem xs="12">
+        <FluentLabel Typo="Typography.HeroTitle">Animals</FluentLabel>
+    </FluentGridItem>
+    <FluentGridItem xs="12">
+        <FluentSwitch @bind-Value=@ViewModel.ShowCardView CheckedMessage="Card View" UncheckedMessage="Table View" />
+    </FluentGridItem>
+    <FluentGridItem xs="12">
+
+        @if (ViewModel.Animals is null)
+        {
+            @*TODO - Handle loading scenario e.g. show skeleton or loading circle*@
+        }
+        else
+        {
+            @if (ViewModel.ShowCardView)
+            {
+                <FluentGrid>
+                    @foreach (var animal in ViewModel.Animals)
+                    {
+                        <AnimalCard Animal="animal" />
+                    }
+                </FluentGrid>
+            }
+            else
+            {
+                <AnimalTable/>
+            }
+        }
+    </FluentGridItem>
+</FluentGrid>
+
+@code {
+
+
+}

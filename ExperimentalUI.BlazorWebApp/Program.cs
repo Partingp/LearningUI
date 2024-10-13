@@ -1,6 +1,7 @@
 using ExperimentalUI.BlazorWebApp.Components;
 using ExperimentalUI.BlazorWebApp.Interfaces;
 using ExperimentalUI.BlazorWebApp.Models.Options;
+using ExperimentalUI.BlazorWebApp.ServiceRegistrations;
 using ExperimentalUI.BlazorWebApp.Services;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -16,6 +17,8 @@ builder.Services.AddFluentUIComponents();
 builder.Services.Configure<AnimalEndpointOptions>(builder.Configuration.GetSection(nameof(AnimalEndpointOptions)));
 
 builder.Services.AddTransient(typeof(IRestService<,>), typeof(RestService<,>));
+
+builder.Services.AddViewModels();
 
 var app = builder.Build();
 

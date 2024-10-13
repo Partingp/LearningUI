@@ -1,0 +1,25 @@
+﻿@using Blazored.FluentValidation
+@using ExperimentalUI.BlazorWebApp.Interfaces
+@using ExperimentalUI.BlazorWebApp.Models.Options
+@using ExperimentalUI.BlazorWebApp.ViewModels
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inherits ComponentBaseWithViewModel<AnimalFormViewModel>
+
+<EditForm Model="@ViewModel.Animal" OnValidSubmit="@ViewModel.SaveAnimal">
+    <FluentValidationValidator />
+    <FluentValidationSummary />
+
+
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentTextField Name="Name" @bind-Value="ViewModel.Animal.Name" Label="Name" Required />
+        <FluentValidationMessage For="@(() => ViewModel.Animal.Name)" />
+        @*TODO - Implement form*@
+        <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent">Submit</FluentButton>
+    </FluentStack>
+</EditForm>
+
+@code {
+
+
+}

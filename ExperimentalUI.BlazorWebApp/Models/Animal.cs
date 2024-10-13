@@ -10,4 +10,6 @@ public class Animal
     public string Thumbnail { get; set; }
 
     public bool IsDomestic { get; set; }
+
+    public Scores Scores { get; set; }
 }

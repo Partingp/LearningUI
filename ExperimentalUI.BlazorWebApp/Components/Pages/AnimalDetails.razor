@@ -1,0 +1,29 @@
+﻿@page "/animals/{id:guid}"
+@using ExperimentalUI.BlazorWebApp.Interfaces
+@using ExperimentalUI.BlazorWebApp.Models.Options
+@using ExperimentalUI.BlazorWebApp.ViewModels
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inherits ComponentBaseWithViewModel<AnimalDetailsViewModel>
+
+@*TODO - Dashboard like page*@
+<FluentLabel>Name: @ViewModel.Animal.Name</FluentLabel>
+<FluentLabel>Description: @ViewModel.Animal.Description</FluentLabel>
+<FluentLabel>IsDomestic: @ViewModel.Animal.IsDomestic</FluentLabel>
+<FluentLabel>Cuteness: @ViewModel.Animal.Scores.Cuteness</FluentLabel>
+<FluentLabel>Speed: @ViewModel.Animal.Scores.Speed</FluentLabel>
+<FluentLabel>Mischief: @ViewModel.Animal.Scores.Mischief</FluentLabel>
+<FluentLabel>Lifespan: @ViewModel.Animal.Scores.Lifespan</FluentLabel>
+<FluentLabel>Pettable: @ViewModel.Animal.Scores.Pettable</FluentLabel>
+<FluentLabel>Rarity: @ViewModel.Animal.Scores.Rarity</FluentLabel>
+<FluentLabel>Overall: @ViewModel.Animal.Scores.Overall</FluentLabel>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await ViewModel.IntialiseViewModel(Id);
+    }
+}

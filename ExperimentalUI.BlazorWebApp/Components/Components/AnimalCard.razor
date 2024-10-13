@@ -1,0 +1,39 @@
+﻿@using ExperimentalUI.BlazorWebApp.Interfaces
+@using ExperimentalUI.BlazorWebApp.Models.Options
+@using ExperimentalUI.BlazorWebApp.ViewModels
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inherits ComponentBaseWithViewModel<AnimalCardViewModel>
+
+@*TODO - Aim for this component is to make it look like a trading card*@
+@*TODO - Animate so when hovering over the card moves*@
+<FluentCard>
+    <!-- Image Container -->
+    <div style="cursor: pointer; height: 90%; display: flex; align-items: center; justify-content: center;" @onclick="@((arg)=> ViewModel.ViewEnlargedCardCommand.Execute(arg))">
+        <img src="@Animal.Thumbnail"
+             alt="@Animal.Description"
+             title="@Animal.Description"
+             style="max-height: 100%; max-width: 100%; height: auto; width: auto; object-fit: cover;" />
+    </div>
+    <!-- Stats Section -->
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel Typo="Typography.Subject"> @Animal.Name</FluentLabel>
+        <FluentLabel Typo="Typography.Subject"> @Animal.Description</FluentLabel>
+        <FluentLabel Typo="Typography.Subject"> @Animal.IsDomestic</FluentLabel>
+        @*TODO - Subsection for scores*@
+        <FluentLabel Typo="Typography.Subject"> @Animal.Scores.Cuteness</FluentLabel>
+        <FluentLabel Typo="Typography.Subject"> @Animal.Scores.Speed</FluentLabel>
+        <FluentLabel Typo="Typography.Subject"> @Animal.Scores.Mischief</FluentLabel>
+        <FluentLabel Typo="Typography.Subject"> @Animal.Scores.Lifespan</FluentLabel>
+        <FluentLabel Typo="Typography.Subject"> @Animal.Scores.Pettable</FluentLabel>
+        <FluentLabel Typo="Typography.Subject"> @Animal.Scores.Rarity</FluentLabel>
+        @*TODO - Large final score*@
+        <FluentLabel Typo="Typography.Subject"> @Animal.Scores.Overall</FluentLabel>
+    </FluentStack>
+</FluentCard>
+@code {
+
+    [Parameter]
+    [EditorRequired]
+    public Animal Animal { get; set; }
+}
